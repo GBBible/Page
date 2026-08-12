@@ -3,17 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Redirecting...</title>
+
   <script>
     const params = new URLSearchParams(window.location.search);
+
+    const mode = params.get('mode');
     const oobCode = params.get('oobCode');
-    if (oobCode) {
-      // Open your app using custom scheme
-      window.location.href = `myapp://reset?oobCode=${oobCode}`;
-    } else {
-      document.body.innerText = "Invalid reset link!";
+
+    if (!oobCode) {
+      document.body.innerText = "Invalid Firebase action link.";
+    }
+
+    else if (mode === 'resetPassword') {
+      window.location.href =
+        'myapp://reset?oobCode=' +
+        encodeURIComponent(oobCode);
+    }
+
+    else if (mode === 'verifyEmail') {
+      window.location.href =
+        'myapp://verify?oobCode=' +
+        encodeURIComponent(oobCode);
+    }
+
+    else {
+      document.body.innerText = "Unknown Firebase action.";
     }
   </script>
 </head>
+
 <body>
   Redirecting...
 </body>
